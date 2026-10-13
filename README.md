@@ -13,19 +13,16 @@ Three paths share one image. The weave builds it. The machine fetches it. A puls
 ```mermaid
 flowchart TB
   subgraph weave [Weave]
-    direction TB
     src[Source]
     asm[Two-pass assembler]
-    img["Image, 16 words of 12 bits"]
+    img[16 by 12 image]
     map[Through-cores and around-cores]
     chk[Rebuild each word from its through-cores]
     src --> asm --> img --> map --> chk
   end
-
   subgraph machine [Machine]
-    direction TB
-    rom[Rope, fetch only]
-    ram[Shadow RAM, store only]
+    rom[Rope. Fetch only]
+    ram[Shadow RAM. Store only]
     acc[Accumulator]
     pc[Program counter]
     pc --> rom
@@ -33,15 +30,12 @@ flowchart TB
     ram --> acc
     acc --> ram
   end
-
   subgraph pulse [Pulse]
-    direction TB
     sel[Select one of 16 word lines]
     cores[12 sense cores]
     latch[12-bit sense latch]
     sel --> cores --> latch
   end
-
   img --> rom
   rom -.->|boot copy| ram
   map --> sel
