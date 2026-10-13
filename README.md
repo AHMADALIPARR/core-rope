@@ -6,6 +6,49 @@ A 16-word by 12-bit rope ROM, a two-pass assembler, and a one-accumulator machin
 
 This is a chosen encoding and a routing map. It is not an Apollo Guidance Computer, and it is not a measured magnetic circuit. A real rope is a transformer ROM: a drive pulse couples into a sense winding only where the selected line goes through that core. Nothing here has been scoped.
 
+## Architecture
+
+Three paths share one image. The weave builds it. The machine fetches it. A pulse only reads it.
+
+```mermaid
+flowchart TB
+  subgraph weave [Weave]
+    direction TB
+    src[Source]
+    asm[Two-pass assembler]
+    img["Image, 16 words of 12 bits"]
+    map[Through-cores and around-cores]
+    chk[Rebuild each word from its through-cores]
+    src --> asm --> img --> map --> chk
+  end
+
+  subgraph machine [Machine]
+    direction TB
+    rom[Rope, fetch only]
+    ram[Shadow RAM, store only]
+    acc[Accumulator]
+    pc[Program counter]
+    pc --> rom
+    rom --> acc
+    ram --> acc
+    acc --> ram
+  end
+
+  subgraph pulse [Pulse]
+    direction TB
+    sel[Select one of 16 word lines]
+    cores[12 sense cores]
+    latch[12-bit sense latch]
+    sel --> cores --> latch
+  end
+
+  img --> rom
+  rom -.->|boot copy| ram
+  map --> sel
+```
+
+The boot copy happens once. After that, `LDA` and `ADD` read shadow RAM, and `STA` writes shadow RAM. The program counter selects a rope word, and that fetch never consults RAM. Pulse does not step the machine: it drives the word line the map describes and latches the twelve cores.
+
 ## One word
 
 `LDA VALUE` with `VALUE` at address 4 assembles to `104`.
