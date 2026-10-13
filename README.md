@@ -1,6 +1,8 @@
 # Integer BASIC IR
 
-![Core Rope. Sixteen word lines, twelve sense cores. Through is one. Around is zero.](public/og.jpg)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AHMADALIPARR/core-rope/main/public/og.jpg" alt="Core Rope. Sixteen word lines, twelve sense cores. Through is one. Around is zero." width="720">
+</p>
 
 Two programs execute the same numbered BASIC. One is FreeBASIC. The other is NASM x86-64 and talks to Linux through system calls, with no C library. They do not call each other. `scripts/test.sh` runs both and compares the magazines byte for byte.
 
