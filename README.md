@@ -49,6 +49,12 @@ flowchart TB
 
 The boot copy happens once. After that, `LDA` and `ADD` read shadow RAM, and `STA` writes shadow RAM. The program counter selects a rope word, and that fetch never consults RAM. Pulse does not step the machine: it drives the word line the map describes and latches the twelve cores.
 
+## Block diagram
+
+![Block diagram. Assembler weaves the core plane. The program counter selects one word line. The sense latch is the fetch. Stores stop at shadow RAM.](public/block-diagram.png)
+
+Solid lines run every step. The dashed line runs once, when the machine boots. `LDA` and `ADD` point from shadow RAM into the accumulator. `STA` points the other way. Nothing returns to the core plane.
+
 ## One word
 
 `LDA VALUE` with `VALUE` at address 4 assembles to `104`.
