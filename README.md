@@ -1,5 +1,7 @@
 # Core Rope
 
+![Core Rope. Sixteen word lines, twelve sense cores. Through is one. Around is zero.](public/og.jpg)
+
 Educational 16×12 core-rope assembler, wiring map, and accumulator. A word line passes **through** a sense core for a one and **around** it for a zero. Core 0 is the least significant bit.
 
 This is a conceptual encoding. It is not an Apollo Guidance Computer, and it is not a measured magnetic circuit.
