@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.output/
+.vercel/
+.nitro/
+.tanstack/
+.data/
+screenshots/
+.env
+.env.*
+!.env.example
+.grok/
+AGENTS.md
+reference/__pycache__/
+*.pyc
+.node_modules.lock
