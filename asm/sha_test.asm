@@ -1,0 +1,60 @@
+bits 64
+%include "sha256.asm"
+
+section .data
+abc: db "abc"
+empty_msg: db 0
+okm: db "ok", 10
+badm: db "bad", 10
+expect_empty:
+    db 0xe3, 0xb0, 0xc4, 0x42, 0x98, 0xfc, 0x1c, 0x14
+    db 0x9a, 0xfb, 0xf4, 0xc8, 0x99, 0x6f, 0xb9, 0x24
+    db 0x27, 0xae, 0x41, 0xe4, 0x64, 0x9b, 0x93, 0x4c
+    db 0xa4, 0x95, 0x99, 0x1b, 0x78, 0x52, 0xb8, 0x55
+expect_abc:
+    db 0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea
+    db 0x41, 0x41, 0x40, 0xde, 0x5d, 0xae, 0x22, 0x23
+    db 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c
+    db 0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad
+
+section .bss
+outb: resb 32
+
+section .text
+global _start
+_start:
+    mov rdi, empty_msg
+    xor rsi, rsi
+    mov rdx, outb
+    call sha256_digest
+    mov rsi, outb
+    mov rdi, expect_empty
+    mov ecx, 32
+    repe cmpsb
+    jne .bad
+    mov rdi, abc
+    mov rsi, 3
+    mov rdx, outb
+    call sha256_digest
+    mov rsi, outb
+    mov rdi, expect_abc
+    mov ecx, 32
+    repe cmpsb
+    jne .bad
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, okm
+    mov rdx, 3
+    syscall
+    mov rax, 60
+    xor rdi, rdi
+    syscall
+.bad:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, badm
+    mov rdx, 4
+    syscall
+    mov rax, 60
+    mov rdi, 1
+    syscall
