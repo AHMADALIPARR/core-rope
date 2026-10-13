@@ -1,5 +1,7 @@
 # Integer BASIC IR
 
+![Core Rope. Sixteen word lines, twelve sense cores. Through is one. Around is zero.](public/og.jpg)
+
 Two programs execute the same numbered BASIC. One is FreeBASIC. The other is NASM x86-64 and talks to Linux through system calls, with no C library. They do not call each other. `scripts/test.sh` runs both and compares the magazines byte for byte.
 
 The sample leaves **432** in `R3`. Both write the same 544-byte magazine. The terminal checksum is `580d19b82098e32d`.
